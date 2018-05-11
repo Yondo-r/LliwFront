@@ -1,11 +1,10 @@
 <template>
   <v-app>
     <div>
-      <v-btn @click="criarModal()" color="primary"> Criar </v-btn>
-      <v-btn color="primary"> Editar </v-btn>
+      <v-btn @click="criarM1()" color="primary"> Criar </v-btn>
       <v-data-table
       :headers="headers"
-      :items="itens1"
+      :items="m1"
       hide-actions
       class="theme--light"
       >
@@ -69,7 +68,7 @@
 <!-- editar M1 -->
     <v-dialog v-model="editarDialog" @keydown.esc="editarDialog = false" persistent max-width="690">
       <v-card>
-        <form>
+        <v-form>
           <v-text-field
             v-model="m1Editado.nome"
             label="Nome"
@@ -96,12 +95,11 @@
             required
           ></v-text-field>
           <v-card-actions>
-            <v-btn  @click="editarModal(dadosModal)">submit</v-btn>
-            <!-- <v-btn @click="clear">clear</v-btn> -->
+            <v-btn  @click="editarM1()">submit</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="primary" >Fechar</v-btn>
-          </v-card-actions>
-        </form>
+            <v-btn color="primary" @click="editarDialog = false" >Cancelar</v-btn>
+          </v-card-actions>   
+        </v-form>
       </v-card>
     </v-dialog>
   </v-app>
@@ -135,7 +133,7 @@ export default {
         nomeResponsavel: '',
         tipoIntegracao: ''
       },
-      itens1: [
+      m1: [
         { nome: 'a1',
           descricao: 'a2',
           tipo: 'a3',
@@ -158,19 +156,24 @@ export default {
     }
   },
   methods: {
-    criarModal () {
+    criarM1 () {
       this.createDialog = true
     },
     cadastrarM1 () {
       console.log('Na teoria seu coiso foi cadastrado, mas essa função não faz nada, contudo, ela está aqui pra não gerar erro na minha telinha')
     },
-    editarModal () {
+    editarM1 () {
       console.log('vamos fingir que os dados foram editados')
       this.editarDialog = false
     },
     contextoModal (m1) {
-      this.dadosModal = m1
+      this.m1Editado = m1
       this.editarDialog = true
+      this.m1Editado.nome = m1.nome
+      this.m1Editado.descricao = m1.descricao
+      this.m1Editado.tipo = m1.tipo
+      this.m1Editado.nomeResponsavel = m1.nomeResponsavel 
+      this.m1Editado.tipoIntegracao =  m1.tipoIntegracao
     },
     buscarM1 () {
       console.log('quando cadastrado o usuário, ele chamará a função de buscar :D')
